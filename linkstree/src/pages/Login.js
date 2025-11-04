@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Login.css";
+import { API_URL } from "../config";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "https://verse-link-backend.onrender.com/api/auth/login",
+        `${API_URL}/api/auth/login`,
         { email, password },
         { withCredentials: true } // allows sending cookies if used
       );

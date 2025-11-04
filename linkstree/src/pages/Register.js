@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Register.css";
+import { API_URL } from "../config";
+
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -9,9 +11,6 @@ export default function Register() {
   const [photo, setPhoto] = useState(null);
   const [preview, setPreview] = useState("");
   const [message, setMessage] = useState("");
-
-  // 🌐 Change this to your actual Render backend URL
-  const BASE_URL = "https://verselink-backend.onrender.com";
 
   // 📸 Handle photo selection + preview
   const handlePhotoChange = (e) => {

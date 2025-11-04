@@ -11,10 +11,6 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
 
   axios.defaults.withCredentials = true;
-
-  // 🌐 Your live backend base URL
-  const API_BASE = "https://verse-link-backend.onrender.com";
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
