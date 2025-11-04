@@ -10,6 +10,9 @@ export default function Register() {
   const [preview, setPreview] = useState("");
   const [message, setMessage] = useState("");
 
+  // 🌐 Change this to your actual Render backend URL
+  const BASE_URL = "https://verselink-backend.onrender.com";
+
   // 📸 Handle photo selection + preview
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -32,13 +35,13 @@ export default function Register() {
       formData.append("password", password);
       formData.append("photo", photo); // must match upload.single("photo")
 
-      // 📨 Send POST request
+      // 📨 Send POST request to live backend
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${API_URL}/api/auth/register`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true, // ✅ allow cookie to be set
+          withCredentials: true,
         }
       );
 

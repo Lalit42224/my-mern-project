@@ -12,10 +12,13 @@ export default function Dashboard() {
 
   axios.defaults.withCredentials = true;
 
+  // 🌐 Your live backend base URL
+  const API_BASE = "https://verse-link-backend.onrender.com";
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/auth/check");
+        const res = await axios.get(`${API_BASE}/api/auth/check`);
         if (res.data.authenticated) setUser(res.data.user);
       } catch {
         setUser(null);
@@ -24,7 +27,7 @@ export default function Dashboard() {
 
     const fetchLinks = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/links/my-links");
+        const res = await axios.get(`${API_BASE}/api/links/my-links`);
         setLinks(res.data);
       } catch {
         setMessage("⚠️ Failed to load links. Please log in again.");
@@ -38,11 +41,11 @@ export default function Dashboard() {
   const addLink = async () => {
     if (!title || !url) return setMessage("Please fill all fields");
     try {
-      await axios.post("http://localhost:5000/api/links/add", { title, url });
+      await axios.post(`${API_BASE}/api/links/add`, { title, url });
       setMessage("✅ Link added!");
       setTitle("");
       setUrl("");
-      const res = await axios.get("http://localhost:5000/api/links/my-links");
+      const res = await axios.get(`${API_BASE}/api/links/my-links`);
       setLinks(res.data);
     } catch {
       setMessage("❌ Failed to add link");
@@ -51,9 +54,9 @@ export default function Dashboard() {
 
   const deleteLink = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/links/delete/${id}`);
+      await axios.delete(`${API_BASE}/api/links/delete/${id}`);
       setMessage("🗑️ Link deleted");
-      const res = await axios.get("http://localhost:5000/api/links/my-links");
+      const res = await axios.get(`${API_BASE}/api/links/my-links`);
       setLinks(res.data);
     } catch {
       setMessage("❌ Failed to delete");
@@ -75,11 +78,11 @@ export default function Dashboard() {
     <div>
       <Navbar />
 
-      {/* ✅ Profile centered */}
+      {/* ✅ Profile Section */}
       {user && (
         <div className="profile-section">
           <img
-            src={`http://localhost:5000${user.avatar || "/uploads/default.png"}`}
+            src={`${API_BASE}${user.avatar || "/uploads/default.png"}`}
             alt="Profile"
             className="profile-avatar"
           />
@@ -90,7 +93,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* ✅ Fixed dashboard main below profile */}
+      {/* ✅ Dashboard Section */}
       <div className="dashboard-main">
         <h2>Your Dashboard</h2>
         <p className="subtitle">✨ Manage all your links</p>
