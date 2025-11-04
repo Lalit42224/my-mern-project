@@ -12,13 +12,23 @@ dotenv.config();
 const app = express();
 
 // ✅ Middleware
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://verse-link.vercel.app", // ✅ your live frontend
+];
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:3000"], // Allow both frontend dev ports
-    credentials: true, // allow cookies if needed
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
-
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
