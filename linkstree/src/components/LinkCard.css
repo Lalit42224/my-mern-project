@@ -1,0 +1,142 @@
+/* Navbar.css */
+
+.navbar {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 1200px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  z-index: 1000;
+}
+
+/* ---------- LEFT SIDE ---------- */
+.nav-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.nav-logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+}
+
+.logo-text {
+  background: linear-gradient(90deg, #00e0ff, #6b5bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-tagline {
+  font-size: 0.85rem;
+  color: #d9d9d9;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+/* ---------- RIGHT SIDE ---------- */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav-right a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #e8e8e8;
+  transition: 0.3s;
+}
+
+.nav-right a:hover {
+  color: #00e0ff;
+}
+
+/* ---------- USER SECTION ---------- */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 12px;
+}
+
+.user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #00e0ff;
+  transition: transform 0.3s ease;
+}
+
+.user-photo:hover {
+  transform: scale(1.05);
+}
+
+.username {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* ---------- LOGOUT BUTTON ---------- */
+.logout-btn {
+  background: linear-gradient(90deg, #ff4b2b, #ff416c);
+  border: none;
+  color: #fff;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.logout-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 20px;
+  }
+
+  .nav-right {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  .logo-tagline {
+    display: none;
+  }
+
+  .user-photo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .logout-btn {
+    padding: 5px 10px;
+  }
+}

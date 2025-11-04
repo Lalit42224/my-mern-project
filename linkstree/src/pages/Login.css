@@ -1,0 +1,75 @@
+/* LOGIN PAGE CSS */
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #1e0037, #370060, #5a189a);
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center Card Container */
+.login-container {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  width: 340px;
+  padding: 2.5rem;
+  text-align: center;
+}
+
+/* Heading */
+h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 0, 128, 0.3);
+}
+
+/* Input Fields */
+input[type="email"],
+input[type="password"] {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.75rem;
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Button */
+button {
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  width: 100%;
+  color: white;
+  background: linear-gradient(to right, #7b2cbf, #b5179e);
+  box-shadow: 0 0 15px rgba(255, 0, 128, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container {
+    width: 90%;
+    padding: 2rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+}
