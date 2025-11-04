@@ -2,25 +2,27 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Login.css";
 import { API_URL } from "../config";
+import { useNavigate } from "react-router-dom"; // ✅ navigation hook
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // ✅ initialize navigation
 
   const handleLogin = async () => {
     try {
       const res = await axios.post(
         `${API_URL}/api/auth/login`,
         { email, password },
-        { withCredentials: true } // allows sending cookies if used
+        { withCredentials: true }
       );
 
       setMessage("✅ Login successful!");
       console.log("User Data:", res.data);
 
-      // Optional: Redirect to dashboard
-      window.location.href = "/dashboard";
+      // ✅ Use navigate() instead of window.location.href
+      navigate("/dashboard");
     } catch (err) {
       console.error(err);
       setMessage("❌ Invalid email or password");

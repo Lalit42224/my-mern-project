@@ -3,17 +3,13 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "./PublicProfile.css";
-import { API_URL } from "../config";
-
+import { API_URL } from "../config"; // ✅ Backend base URL
 
 export default function PublicProfile() {
   const { username } = useParams();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  // ✅ Use your Render backend URL here
-  const BASE_URL = "https://verselink-backend.onrender.com";
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -51,7 +47,7 @@ export default function PublicProfile() {
           <img
             src={
               profile.avatar
-                ? `${BASE_URL}${profile.avatar}`
+                ? `${API_URL}${profile.avatar}`
                 : "/default-avatar.png"
             }
             alt={`${profile.username}'s avatar`}
