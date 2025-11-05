@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import "./Dashboard.css";
 import axios from "axios";
+import { API_URL } from "../config";
 
 export default function Dashboard() {
   const [links, setLinks] = useState([]);
@@ -14,7 +15,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/auth/check`);
+        const res = await axios.get(`${API_URL}/api/auth/check`);
         if (res.data.authenticated) setUser(res.data.user);
       } catch {
         setUser(null);
@@ -23,7 +24,7 @@ export default function Dashboard() {
 
     const fetchLinks = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/links/my-links`);
+        const res = await axios.get(`${API_URL}/api/links/my-links`);
         setLinks(res.data);
       } catch {
         setMessage("⚠️ Failed to load links. Please log in again.");
@@ -37,11 +38,11 @@ export default function Dashboard() {
   const addLink = async () => {
     if (!title || !url) return setMessage("Please fill all fields");
     try {
-      await axios.post(`${API_BASE}/api/links/add`, { title, url });
+      await axios.post(`${API_URL}/api/links/add`, { title, url });
       setMessage("✅ Link added!");
       setTitle("");
       setUrl("");
-      const res = await axios.get(`${API_BASE}/api/links/my-links`);
+      const res = await axios.get(`${API_URL}/api/links/my-links`);
       setLinks(res.data);
     } catch {
       setMessage("❌ Failed to add link");
@@ -50,9 +51,9 @@ export default function Dashboard() {
 
   const deleteLink = async (id) => {
     try {
-      await axios.delete(`${API_BASE}/api/links/delete/${id}`);
+      await axios.delete(`${API_URL}/api/links/delete/${id}`);
       setMessage("🗑️ Link deleted");
-      const res = await axios.get(`${API_BASE}/api/links/my-links`);
+      const res = await axios.get(`${API_URL}/api/links/my-links`);
       setLinks(res.data);
     } catch {
       setMessage("❌ Failed to delete");
@@ -78,7 +79,7 @@ export default function Dashboard() {
       {user && (
         <div className="profile-section">
           <img
-            src={`${API_BASE}${user.avatar || "/uploads/default.png"}`}
+            src={`${API_URL}${user.avatar || "/uploads/default.png"}`}
             alt="Profile"
             className="profile-avatar"
           />
