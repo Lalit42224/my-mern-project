@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Login.css";
 import { API_URL } from "../config";
-import { useNavigate } from "react-router-dom"; // ✅ navigation hook
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate(); // ✅ initialize navigation
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -21,12 +21,13 @@ export default function Login() {
       setMessage("✅ Login successful!");
       console.log("User Data:", res.data);
 
-      // ✅ Use navigate() instead of window.location.href
-    setTimeout(() => navigate("/dashboard"), 800);
-  } catch (err) {
-    const msg = err.response?.data?.message || "❌ Invalid email or password";
-    setMessage(msg);
-  }
+      // Redirect after short delay
+      setTimeout(() => navigate("/dashboard"), 800);
+    } catch (err) {
+      const msg = err.response?.data?.message || "❌ Invalid email or password";
+      setMessage(msg);
+    }
+  };
 
   return (
     <div className="login-container">
@@ -47,5 +48,4 @@ export default function Login() {
       {message && <p>{message}</p>}
     </div>
   );
-}
 }
