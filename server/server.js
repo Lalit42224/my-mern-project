@@ -11,12 +11,13 @@ import profileRoutes from "./routes/profileRoutes.js";
 dotenv.config();
 const app = express();
 
-// ✅ Middleware
+// ✅ Allowed origins for frontend
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://verse-link.vercel.app", // ✅ your live frontend
+  "https://verse-link.vercel.app", // your live frontend
 ];
 
+// ✅ CORS setup (must come before routes)
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -26,24 +27,26 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true,
+    credentials: true, // ✅ important for cookies
   })
 );
+
+// ✅ Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
 
-// ✅ Base Route (for quick check)
+// ✅ Base route (for quick check)
 app.get("/", (req, res) => {
   res.send("🚀 Backend is running successfully!");
 });
 
-// ✅ API Routes
+// ✅ API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/links", linkRoutes);
 app.use("/api", profileRoutes);
 
-// ✅ MongoDB + Server
+// ✅ MongoDB connection + Server start
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -51,8 +54,10 @@ mongoose
   })
   .then(() => {
     console.log("✅ MongoDB connected");
-    app.listen(process.env.PORT || 5000, () => {
-      console.log(`🚀 Server running on port ${process.env.PORT || 5000}`);
+
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   })
   .catch((err) => console.log("❌ DB Error:", err));
