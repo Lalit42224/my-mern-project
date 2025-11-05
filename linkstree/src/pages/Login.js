@@ -22,12 +22,11 @@ export default function Login() {
       console.log("User Data:", res.data);
 
       // ✅ Use navigate() instead of window.location.href
-      navigate("/dashboard");
-    } catch (err) {
-      console.error(err);
-      setMessage("❌ Invalid email or password");
-    }
-  };
+    setTimeout(() => navigate("/dashboard"), 800);
+  } catch (err) {
+    const msg = err.response?.data?.message || "❌ Invalid email or password";
+    setMessage(msg);
+  }
 
   return (
     <div className="login-container">
@@ -48,4 +47,5 @@ export default function Login() {
       {message && <p>{message}</p>}
     </div>
   );
+}
 }

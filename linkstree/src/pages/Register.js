@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Register.css";
 import { API_URL } from "../config";
-
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -11,8 +11,8 @@ export default function Register() {
   const [photo, setPhoto] = useState(null);
   const [preview, setPreview] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
-  // 📸 Handle photo selection + preview
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -27,25 +27,22 @@ export default function Register() {
         return setMessage("⚠️ Please fill all fields and upload a photo");
       }
 
-      // 🧾 Prepare FormData
       const formData = new FormData();
       formData.append("username", username);
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("photo", photo); // must match upload.single("photo")
+      formData.append("photo", photo);
 
-      // 📨 Send POST request to live backend
-      const res = await axios.post(
-        `${API_URL}/api/auth/register`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post(`${API_URL}/api/auth/register`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      });
 
       setMessage(`✅ ${res.data.message}`);
       console.log("Registered user:", res.data);
+
+      // ✅ Optional: redirect after success
+      setTimeout(() => navigate("/dashboard"), 800);
     } catch (err) {
       console.error("❌ Registration error:", err.response?.data || err.message);
       setMessage("❌ " + (err.response?.data?.message || "Registration failed"));
@@ -55,8 +52,6 @@ export default function Register() {
   return (
     <div className="register-container">
       <h2>Create Account</h2>
-
-      {/* Photo Upload Section */}
       <div className="photo-section">
         {preview ? (
           <img src={preview} alt="Preview" className="photo-preview" />
@@ -69,7 +64,6 @@ export default function Register() {
         </label>
       </div>
 
-      {/* Input Fields */}
       <input
         type="text"
         placeholder="Full Name"
@@ -90,10 +84,8 @@ export default function Register() {
       />
 
       <button onClick={handleRegister}>Register</button>
-
       {message && <p className="status-msg">{message}</p>}
 
-      {/* Optional Google Signup */}
       <button className="google-btn">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"

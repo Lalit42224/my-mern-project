@@ -2,18 +2,18 @@ import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Navbar.css";
+import { API_URL } from "../config";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Detect if the current page is a public profile like /u/username
+  // ✅ Detect public profile route
   const isPublicProfile = location.pathname.startsWith("/u/");
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true });
-      localStorage.removeItem("token");
+      await axios.post(`${API_URL}/api/auth/logout`, {}, { withCredentials: true });
       navigate("/login");
     } catch (err) {
       console.error("Logout failed:", err);
@@ -31,12 +31,9 @@ export default function Navbar() {
 
       <div className="nav-right">
         <Link to="/">Home</Link>
-        {/* ✅ Hide Dashboard on public profile */}
         {!isPublicProfile && <Link to="/dashboard">Dashboard</Link>}
         <Link to="/login">Login</Link>
         <Link to="/register">Register</Link>
-
-        {/* ✅ Hide Logout button on public profile */}
         {!isPublicProfile && (
           <button onClick={handleLogout} className="logout-btn">
             Logout
