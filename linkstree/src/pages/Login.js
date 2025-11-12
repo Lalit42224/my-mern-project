@@ -21,6 +21,11 @@ export default function Login() {
       setMessage("✅ Login successful!");
       console.log("User Data:", res.data);
 
+      // ✅ Save user data to localStorage
+      if (res.data.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+      }
+
       // Redirect after short delay
       setTimeout(() => navigate("/dashboard"), 800);
     } catch (err) {
