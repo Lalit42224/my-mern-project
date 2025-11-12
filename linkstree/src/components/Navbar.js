@@ -10,9 +10,10 @@ export default function Navbar() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // ✅ Detect public profile & home routes
+  // ✅ Detect special routes
   const isPublicProfile = location.pathname.startsWith("/u/");
   const isHomePage = location.pathname === "/";
+  const isDashboardPage = location.pathname === "/dashboard"; // 👈 Added this line
 
   // ✅ Check login status from localStorage
   useEffect(() => {
@@ -44,14 +45,14 @@ export default function Navbar() {
         {/* ✅ Always show Home */}
         <Link to="/">Home</Link>
 
-        {/* ✅ If logged in → show Dashboard & Logout */}
-        {isLoggedIn && !isPublicProfile && (
-          <>
-            <Link to="/dashboard">Dashboard</Link>
-            <button onClick={handleLogout} className="logout-btn">
-              Logout
-            </button>
-          </>
+        {/* ✅ If logged in → show Dashboard */}
+        {isLoggedIn && !isPublicProfile && <Link to="/dashboard">Dashboard</Link>}
+
+        {/* ✅ Show Logout ONLY on Dashboard page */}
+        {isLoggedIn && isDashboardPage && (
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
         )}
 
         {/* ✅ If NOT logged in → show Login & Register */}
