@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Navbar.css";
@@ -8,12 +8,23 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ Detect public profile route
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // ✅ Detect public profile & home routes
   const isPublicProfile = location.pathname.startsWith("/u/");
+  const isHomePage = location.pathname === "/";
+
+  // ✅ Check login status from localStorage
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    setIsLoggedIn(!!user);
+  }, [location]);
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${API_URL}/api/auth/logout`, {}, { withCredentials: true });
+      await axios.post(API_URL + "/api/auth/logout", {}, { withCredentials: true });
+      localStorage.removeItem("user"); // ✅ Clear login info
+      setIsLoggedIn(false);
       navigate("/login");
     } catch (err) {
       console.error("Logout failed:", err);
@@ -30,14 +41,25 @@ export default function Navbar() {
       </div>
 
       <div className="nav-right">
+        {/* ✅ Always show Home */}
         <Link to="/">Home</Link>
-        {!isPublicProfile && <Link to="/dashboard">Dashboard</Link>}
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-        {!isPublicProfile && (
-          <button onClick={handleLogout} className="logout-btn">
-            Logout
-          </button>
+
+        {/* ✅ If logged in → show Dashboard & Logout */}
+        {isLoggedIn && !isPublicProfile && (
+          <>
+            <Link to="/dashboard">Dashboard</Link>
+            <button onClick={handleLogout} className="logout-btn">
+              Logout
+            </button>
+          </>
+        )}
+
+        {/* ✅ If NOT logged in → show Login & Register */}
+        {!isLoggedIn && (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
         )}
       </div>
     </nav>
