@@ -13,15 +13,20 @@ export default function Dashboard() {
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/auth/check`);
-        if (res.data.authenticated) setUser(res.data.user);
-      } catch {
-        setUser(null);
-      }
-    };
-
+   const fetchUser = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/api/auth/check`);
+    if (res.data.authenticated) {
+      setUser(res.data.user);
+      localStorage.setItem("user", JSON.stringify(res.data.user)); // ✅ added line
+    } else {
+      localStorage.removeItem("user");
+    }
+  } catch {
+    setUser(null);
+    localStorage.removeItem("user");
+  }
+};
     const fetchLinks = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/links/my-links`);
